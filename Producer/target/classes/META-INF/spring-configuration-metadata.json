@@ -1,0 +1,72 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config",
+      "type": "Core.Center.CallCenterConfiguration"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.center-address",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.center-address",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.host",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.host",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.port",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.port",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.root-dir",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.root-dir",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.server-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.server-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.timeout",
+      "type": "java.lang.Integer"
+    }
+  ]
+}
