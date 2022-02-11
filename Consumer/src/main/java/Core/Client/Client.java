@@ -38,7 +38,7 @@ public class Client extends SimpleChannelInboundHandler<FastResponse> {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
-                        socketChannel.pipeline().addLast(this);
+                        socketChannel.pipeline().addLast(Client.this);
                     }
                 }).option(ChannelOption.SO_KEEPALIVE,true);
         try {

@@ -10,6 +10,7 @@
       <configuration>
         <fileset id="fileset" name="CallCenterConfiguration" removed="false">
           <file>file://$MODULE_DIR$/src/main/java/Core/CallCenterConfiguration.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/Core/Center/CallCenterConfiguration.java</file>
         </fileset>
       </configuration>
     </facet>
@@ -24,6 +25,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="FastCall" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:1.5.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:1.5.2.RELEASE" level="project" />

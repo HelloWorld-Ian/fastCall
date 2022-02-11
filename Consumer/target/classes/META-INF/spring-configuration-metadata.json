@@ -2,29 +2,29 @@
   "hints": [],
   "groups": [
     {
-      "sourceType": "Core.CallCenterConfiguration",
+      "sourceType": "Core.Center.CallCenterConfiguration",
       "name": "fastCall.center.config",
-      "type": "Core.CallCenterConfiguration"
+      "type": "Core.Center.CallCenterConfiguration"
     }
   ],
   "properties": [
     {
-      "sourceType": "Core.CallCenterConfiguration",
-      "name": "fastCall.center.config.host",
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.center-address",
       "type": "java.lang.String"
     },
     {
-      "sourceType": "Core.CallCenterConfiguration",
-      "name": "fastCall.center.config.host",
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.center-address",
       "type": "java.lang.String"
     },
     {
-      "sourceType": "Core.CallCenterConfiguration",
+      "sourceType": "Core.Center.CallCenterConfiguration",
       "name": "fastCall.center.config.root-dir",
       "type": "java.lang.String"
     },
     {
-      "sourceType": "Core.CallCenterConfiguration",
+      "sourceType": "Core.Center.CallCenterConfiguration",
       "name": "fastCall.center.config.root-dir",
       "type": "java.lang.String"
     }
