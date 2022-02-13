@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 public class Client extends SimpleChannelInboundHandler<FastResponse> {
@@ -19,6 +21,8 @@ public class Client extends SimpleChannelInboundHandler<FastResponse> {
 
     private final String host;
     private final Integer port;
+
+    CompletableFuture<String>future=new CompletableFuture<>();
 
     public Client(String host, Integer port){
         this.host=host;
@@ -33,20 +37,27 @@ public class Client extends SimpleChannelInboundHandler<FastResponse> {
     public FastResponse remoteExecute(FastRequest request){
         EventLoopGroup workerGroup= new NioEventLoopGroup();
         Bootstrap bootstrap= new Bootstrap();
+
         bootstrap.group(workerGroup)
                 .channel(NioSocketChannel.class)
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
-                        socketChannel.pipeline().addLast(Client.this);
+                        socketChannel.pipeline()
+                                .addLast(new FastDecoder(FastResponse.class))
+                                .addLast(new FastEncoder(FastRequest.class))
+                                .addLast(Client.this);
                     }
                 }).option(ChannelOption.SO_KEEPALIVE,true);
         try {
             ChannelFuture future=bootstrap.connect(new InetSocketAddress(host,port)).sync();
             future.channel().writeAndFlush(request).sync();
+
+            future.get();
+
             future.channel().closeFuture().sync();
             return response;
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             logger.error("execute error");
             return null;
@@ -58,5 +69,6 @@ public class Client extends SimpleChannelInboundHandler<FastResponse> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, FastResponse fastResponse) throws Exception {
         this.response=fastResponse;
+        future.complete("");
     }
 }

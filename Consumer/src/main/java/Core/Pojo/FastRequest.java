@@ -4,6 +4,7 @@ package Core.Pojo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Tolerate;
 
 @Setter
 @Getter
@@ -19,5 +20,10 @@ public class FastRequest {
     private Class<?>[] paramsType;
 
     private Object[] params;
+
+    @Tolerate
+    FastRequest(){
+
+    }
 
 }

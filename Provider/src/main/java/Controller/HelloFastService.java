@@ -1,4 +1,4 @@
-package Core;
+package Controller;
 
 public interface HelloFastService {
     String hello();

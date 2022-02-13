@@ -3,6 +3,8 @@ package Core.Server;
 import Annotation.FastService;
 import Core.Center.CallCenterConfiguration;
 import Core.Center.CenterRegistry;
+import Core.Pojo.FastRequest;
+import Core.Pojo.FastResponse;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -37,9 +39,7 @@ public class ServiceInitConfiguration {
         logger.info("Rpc server start scanning service provider ");
         Map<String,Object>providerBeans=applicationContext.getBeansWithAnnotation(FastService.class);
         if(null!=providerBeans&&!providerBeans.isEmpty()){
-            providerBeans.entrySet().forEach(entry ->{
-                initProviderBean(entry.getKey(),entry.getClass());
-            });
+            providerBeans.forEach(this::initProviderBean);
         }
         startNettyServer(callCenterConfiguration.getPort());
     }
@@ -61,7 +61,10 @@ public class ServiceInitConfiguration {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
-                            socketChannel.pipeline().addLast(handler);
+                            socketChannel.pipeline()
+                                    .addLast(new FastDecoder(FastRequest.class))
+                                    .addLast(new FastEncoder(FastResponse.class))
+                                    .addLast(handler);
                         }
                     }).option(ChannelOption.SO_BACKLOG,128)
                     .childOption(ChannelOption.SO_KEEPALIVE,true);

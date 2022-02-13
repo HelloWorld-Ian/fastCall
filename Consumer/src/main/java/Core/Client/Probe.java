@@ -32,7 +32,7 @@ public class Probe {
     @PostConstruct
     public void init() throws IOException {
         String address= configuration.getCenterAddress();
-        zooKeeper=new ZooKeeper(address, 2000, new Watcher() {
+        zooKeeper=new ZooKeeper(address, 100000, new Watcher() {
             @Override
             public void process(WatchedEvent watchedEvent) {
                 logger.info("connect to zookeeper success");
