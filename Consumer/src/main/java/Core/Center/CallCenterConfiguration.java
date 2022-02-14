@@ -11,5 +11,12 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 public class CallCenterConfiguration {
     private String centerAddress;
-    private String rootDir;
+
+    private Integer connectTimeout;
+
+    private Integer sessionTimeout;
+
+    private String groupName;
+
+    private String appId;
 }

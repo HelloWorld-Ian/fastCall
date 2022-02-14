@@ -75,15 +75,13 @@ public class ServiceInitConfiguration {
                 logger.info("server is attempting to register on call center");
 
                 centerRegistry.register();
+
                 f.channel().closeFuture().sync();
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            logger.error("start server fail");
-        } catch (KeeperException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             logger.error("server register to call center fail");
-        }finally {
+        } finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }

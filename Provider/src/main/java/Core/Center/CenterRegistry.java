@@ -1,5 +1,8 @@
 package Core.Center;
 
+import Core.Pojo.ServerMonitor;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.zookeeper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,39 +19,32 @@ public class CenterRegistry {
     @Autowired
     private CallCenterConfiguration configuration;
 
-    public void register() throws InterruptedException, KeeperException {
-        Integer timeout=configuration.getTimeout();
-        String address=configuration.getCenterAddress();
-        ZooKeeper center= null;
+    @Autowired
+    private CallCenter center;
 
-        try {
-            center = new ZooKeeper(address, timeout, new Watcher() {
-                @Override
-                public void process(WatchedEvent watchedEvent) {
-                    logger.info("center connection established,starting registering......");
-                }
-            });
-        } catch (IOException e) {
-            logger.error("connect to call center fail",e);
-        }
+    public void register() throws Exception {
 
-        String rootDir= configuration.getRootDir();
+        String groupName= "/"+configuration.getGroupName();
         String serverName= configuration.getServerName();
-        String uri=rootDir+"/"+serverName;
+        String uri=groupName+"/"+serverName;
         String host= configuration.getHost();
         Integer port= configuration.getPort();
 
-        // 创建根节点
-        assert center != null;
-        if(center.exists(rootDir,false)==null){
-            center.create(rootDir,rootDir.getBytes(),
-                    ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
-        }
+        ServerMonitor monitor=serverMonitor(host,port);
 
-        // 在注册中心创建节点
-        center.create(uri,(serverName + ","+ host + ":" + port).getBytes(),
-                ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+        // 创建节点
+        center.connection().create()
+                .creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(uri,monitor.bytes());
 
         logger.info("producer {} register success",serverName);
     }
+
+    public ServerMonitor serverMonitor(String host,Integer port){
+        ServerMonitor monitor=new ServerMonitor();
+        monitor.setHost(host);
+        monitor.setPort(port);
+        monitor.setLoad(0);
+        return monitor;
+    }
+
 }

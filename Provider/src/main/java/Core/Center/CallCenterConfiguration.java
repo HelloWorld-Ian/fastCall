@@ -19,9 +19,13 @@ public class CallCenterConfiguration {
 
     private String  host;
 
-    private Integer timeout;
+    private Integer connectTimeout;
 
-    private String rootDir;
+    private Integer sessionTimeout;
+
+    private String groupName;
+
+    private String appId;
 
 
 }

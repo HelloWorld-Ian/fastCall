@@ -1,7 +1,10 @@
 package Core.Client;
 
+import Core.Center.CallCenter;
 import Core.Center.CallCenterConfiguration;
 import Core.Pojo.ProviderInfo;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
@@ -26,20 +29,13 @@ public class Probe {
 
     private final Logger logger= LoggerFactory.getLogger(Probe.class);
 
-    private ZooKeeper zooKeeper;
+    @Autowired
+    private CallCenter center;
+
     private volatile List<ProviderInfo>providerInfoList=new ArrayList<>();
 
     @PostConstruct
     public void init() throws IOException {
-        String address= configuration.getCenterAddress();
-        zooKeeper=new ZooKeeper(address, 100000, new Watcher() {
-            @Override
-            public void process(WatchedEvent watchedEvent) {
-                logger.info("connect to zookeeper success");
-            }
-        });
-
-        //获取节点下的所有配置
         probeProvider();
     }
 
@@ -47,6 +43,7 @@ public class Probe {
     public void probeProvider(){
         String root= configuration.getRootDir();
         try {
+            center.connection().getData()
             List<String>providerNameList=zooKeeper.getChildren(root, new Watcher() {
                 @Override
                 public void process(WatchedEvent watchedEvent) {
