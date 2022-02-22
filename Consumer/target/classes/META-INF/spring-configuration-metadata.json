@@ -10,7 +10,12 @@
   "properties": [
     {
       "sourceType": "Core.Center.CallCenterConfiguration",
-      "name": "fastCall.center.config.center-address",
+      "name": "fastCall.center.config.app-id",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.app-id",
       "type": "java.lang.String"
     },
     {
@@ -20,13 +25,38 @@
     },
     {
       "sourceType": "Core.Center.CallCenterConfiguration",
-      "name": "fastCall.center.config.root-dir",
+      "name": "fastCall.center.config.center-address",
       "type": "java.lang.String"
     },
     {
       "sourceType": "Core.Center.CallCenterConfiguration",
-      "name": "fastCall.center.config.root-dir",
+      "name": "fastCall.center.config.connect-timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.connect-timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.group-name",
       "type": "java.lang.String"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.group-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.session-timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "Core.Center.CallCenterConfiguration",
+      "name": "fastCall.center.config.session-timeout",
+      "type": "java.lang.Integer"
     }
   ]
 }

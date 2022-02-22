@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TestController {
-    @FastConsumer(providerName = "testService")
+    @FastConsumer
     HelloFastService test;
 
     @GetMapping("/hello")

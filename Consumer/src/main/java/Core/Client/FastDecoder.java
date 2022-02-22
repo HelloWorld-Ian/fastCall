@@ -15,7 +15,6 @@ public class FastDecoder extends ByteToMessageDecoder {
 
     /**
      * 构造函数传入向反序列化的class
-     * @param genericClass
      */
     public FastDecoder(Class<?> genericClass) {
         this.genericClass = genericClass;

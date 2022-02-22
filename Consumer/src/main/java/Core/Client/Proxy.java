@@ -3,6 +3,7 @@ package Core.Client;
 import Core.Pojo.FastRequest;
 import Core.Pojo.FastResponse;
 import Core.Pojo.ProviderInfo;
+import Core.Pojo.ServerMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ public class Proxy {
     private Probe probe;
 
     @SuppressWarnings("unchecked")
-    public <T> T proxy(Class<T>interfaceClass,String providerName){
+    public <T> T proxy(Class<T>interfaceClass){
         return (T) java.lang.reflect.Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[]{interfaceClass}, (proxy, method, args) -> {
             FastRequest request=FastRequest.builder()
                     .requestId(UUID.randomUUID().toString())
@@ -27,11 +28,9 @@ public class Proxy {
                     .paramsType(method.getParameterTypes())
                     .build();
 
-            ProviderInfo providerInfo=probe.Provider(providerName);
-            String address=providerInfo.getAddress();
-            String[] split=address.split(":");
-            String host=split[0];
-            Integer port=Integer.parseInt(split[1]);
+            ServerMonitor monitor=probe.Provider();
+            String host= monitor.getHost();
+            Integer port= monitor.getPort();
 
             Client client=new Client(host,port);
             FastResponse response=client.remoteExecute(request);

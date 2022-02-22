@@ -32,7 +32,7 @@ public class ConsumerConfiguration {
                        Class<?> type = field.getType();
                        field.setAccessible(true);
                        try {
-                           field.set(bean,proxy.proxy(type, consumer.providerName()));
+                           field.set(bean,proxy.proxy(type));
                        } catch (IllegalAccessException e) {
                            e.printStackTrace();
                        }finally {

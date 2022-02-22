@@ -10,7 +10,6 @@ public class FastEncoder extends MessageToByteEncoder {
 
     /**
      * 构造函数传入向反序列化的class
-     * @param genericClass
      */
     public FastEncoder(Class<?> genericClass) {
         this.genericClass = genericClass;

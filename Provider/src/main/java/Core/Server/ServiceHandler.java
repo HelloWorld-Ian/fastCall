@@ -1,5 +1,7 @@
 package Core.Server;
 
+import Core.Center.CallCenter;
+import Core.Center.CenterRegistry;
 import Core.Pojo.FastRequest;
 import Core.Pojo.FastResponse;
 import io.netty.channel.ChannelFutureListener;
@@ -8,6 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
@@ -20,9 +23,29 @@ public class ServiceHandler extends SimpleChannelInboundHandler<FastRequest> {
 
     private final Logger logger= LoggerFactory.getLogger(ServiceHandler.class);
 
+    private final CenterRegistry centerRegistry;
+
+    public ServiceHandler(CenterRegistry centerRegistry){
+        this.centerRegistry=centerRegistry;
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        logger.info("server {} connection +1",centerRegistry.getServerAddress());
+        centerRegistry.editLoad(1);
+    }
+
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        logger.info("server {} connection -1",centerRegistry.getServerAddress());
+        centerRegistry.editLoad(-1);
+    }
+
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FastRequest request) throws Exception {
-        logger.info("producer accept a request {}",request);
+        logger.info("provider accept a request {}",request);
 
         FastResponse response=FastResponse.builder().build();
         response.setRequestId(request.getRequestId());

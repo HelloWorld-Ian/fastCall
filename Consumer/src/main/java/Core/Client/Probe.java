@@ -3,6 +3,7 @@ package Core.Client;
 import Core.Center.CallCenter;
 import Core.Center.CallCenterConfiguration;
 import Core.Pojo.ProviderInfo;
+import Core.Pojo.ServerMonitor;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.zookeeper.KeeperException;
@@ -32,7 +33,7 @@ public class Probe {
     @Autowired
     private CallCenter center;
 
-    private volatile List<ProviderInfo>providerInfoList=new ArrayList<>();
+    private volatile List<ServerMonitor>providerInfoList=new ArrayList<>();
 
     @PostConstruct
     public void init() throws IOException {
@@ -41,24 +42,16 @@ public class Probe {
 
 
     public void probeProvider(){
-        String root= configuration.getRootDir();
+        String groupName="/"+configuration.getGroupName();
         try {
-            center.connection().getData()
-            List<String>providerNameList=zooKeeper.getChildren(root, new Watcher() {
-                @Override
-                public void process(WatchedEvent watchedEvent) {
-                    logger.info("probing the service provider");
-                }
-            });
+            List<String>providerNameList=center.connection().getChildren().forPath(groupName);
 
-            List<ProviderInfo>providerInfoList=new ArrayList<>();
+            List<ServerMonitor>providerInfoList=new ArrayList<>();
             for(String name:providerNameList){
-                byte[]info=zooKeeper.getData(uri(root,name),false,null);
-                String[] infoStr=new String(info).split(",");
-                if(infoStr.length==2){
-                    String providerName=infoStr[0];
-                    String providerAddress=infoStr[1];
-                    providerInfoList.add(new ProviderInfo(providerName,providerAddress));
+                byte[]info=center.connection().getData().forPath(uri(groupName,name));
+                ServerMonitor monitor=ServerMonitor.toObj(info);
+                if(monitor!=null){
+                    providerInfoList.add(monitor);
                 }
             }
             this.providerInfoList=providerInfoList;
@@ -66,18 +59,22 @@ public class Probe {
         } catch (KeeperException | InterruptedException e) {
             logger.info("get provider error");
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public ProviderInfo Provider(String providerName){
-        List<ProviderInfo>providerInfos=providerInfoList.stream()
-                .filter(providerInfo -> providerName.equals(providerInfo.getName()))
-                .collect(Collectors.toList());
-        if(providerInfos.isEmpty()){
-            return null;
+    public ServerMonitor Provider(){
+        Integer load=Integer.MAX_VALUE;
+        ServerMonitor ret=null;
+        for(ServerMonitor monitor:providerInfoList){
+            Integer curLoad= monitor.getLoad();
+            if(monitor.getLoad()<load){
+                ret=monitor;
+                load=curLoad;
+            }
         }
-        int size=providerInfos.size();
-        return providerInfos.get(ThreadLocalRandom.current().nextInt(size));
+        return ret;
     }
 
     private String uri(String root,String providerName){

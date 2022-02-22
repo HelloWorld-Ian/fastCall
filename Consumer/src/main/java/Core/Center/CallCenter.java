@@ -2,6 +2,7 @@ package Core.Center;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +22,10 @@ public class CallCenter {
                 .connectString(configuration.getCenterAddress())
                 .sessionTimeoutMs(configuration.getSessionTimeout())
                 .connectionTimeoutMs(configuration.getConnectTimeout())
-                .namespace("/"+configuration.getAppId())
+                .namespace(configuration.getAppId())
+                .retryPolicy(new ExponentialBackoffRetry(1000, 3))
                 .build();
+        connection.start();
     }
 
     public CuratorFramework connection(){

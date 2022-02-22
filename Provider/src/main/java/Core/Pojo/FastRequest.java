@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Tolerate;
 
+import java.util.Arrays;
+
 @Setter
 @Getter
 @Builder
@@ -24,6 +26,12 @@ public class FastRequest {
     @Tolerate
     FastRequest(){
 
+    }
+
+    @Override
+    public String toString(){
+        return "FastRequest { requestId="+requestId+", className="+className+", methodName="+methodName
+                +", paramsType="+ Arrays.toString(paramsType)+", params="+Arrays.toString(paramsType)+" }";
     }
 
 }

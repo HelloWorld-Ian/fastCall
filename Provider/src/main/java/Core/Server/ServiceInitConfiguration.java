@@ -54,8 +54,9 @@ public class ServiceInitConfiguration {
         EventLoopGroup bossGroup= new NioEventLoopGroup();
         EventLoopGroup workerGroup=new NioEventLoopGroup();
 
-        ServiceHandler handler=new ServiceHandler();
+        ServiceHandler handler=new ServiceHandler(centerRegistry);
         try {
+            // bossGroup、workerGroup 主从设计模式
             b.group(bossGroup,workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
