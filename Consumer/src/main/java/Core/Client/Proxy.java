@@ -33,6 +33,8 @@ public class Proxy {
             Integer port= monitor.getPort();
 
             Client client=new Client(host,port);
+
+            // 执行回调函数
             FastResponse response=client.remoteExecute(request);
 
             Throwable error=response.getError();

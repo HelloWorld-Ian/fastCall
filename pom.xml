@@ -12,6 +12,7 @@
     <modules>
         <module>Consumer</module>
         <module>Provider</module>
+        <module>CallCenter</module>
     </modules>
 
     <properties>
