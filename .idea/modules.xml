@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/CallCenter/CallCenter.iml" filepath="$PROJECT_DIR$/CallCenter/CallCenter.iml" />
       <module fileurl="file://$PROJECT_DIR$/Consumer/Consumer.iml" filepath="$PROJECT_DIR$/Consumer/Consumer.iml" />
       <module fileurl="file://$PROJECT_DIR$/FastCall.iml" filepath="$PROJECT_DIR$/FastCall.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Framer/Framer.iml" filepath="$PROJECT_DIR$/Framer/Framer.iml" />
       <module fileurl="file://$PROJECT_DIR$/Provider/Provider.iml" filepath="$PROJECT_DIR$/Provider/Provider.iml" />
     </modules>
   </component>
