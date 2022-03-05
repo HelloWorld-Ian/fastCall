@@ -23,3 +23,5 @@
 3. 注册中心与服务治理监控中心解耦<br>
 4. side car模式<br>
 5. restful gateway<br>
+6. 限流削峰工具<br>
+7. 分布式锁<br>
