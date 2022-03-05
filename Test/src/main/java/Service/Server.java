@@ -17,7 +17,7 @@ public class Server {
 
         CallCenterConfiguration configuration=new CallCenterConfiguration();
         configuration.setAddress("127.0.0.1:2181");
-        configuration.setServerName(InetAddress.getLocalHost().getHostAddress()+":80");
+        configuration.setServerName(InetAddress.getLocalHost().getHostAddress()+":81");
         configuration.setSessionTimeOut(20000);
         configuration.setConnectTimeOut(20000);
         configuration.setServiceName("FastService");
@@ -30,6 +30,6 @@ public class Server {
                 .serviceRegister(serviceConfig)
                 .build();
 
-        server.start(80);
+        server.start(81);
     }
 }
