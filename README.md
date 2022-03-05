@@ -18,7 +18,8 @@
 4. 服务器流量监控 <br>
 
 ### 未来待完成 <br>
-1. 扩展负载均衡算法<br>
-2. 注册中心与服务治理监控中心解耦<br>
-3. side car模式<br>
-4. restful gateway<br>
+1. 基于事件响应的end point状态监控<br>
+2. 扩展负载均衡算法<br>
+3. 注册中心与服务治理监控中心解耦<br>
+4. side car模式<br>
+5. restful gateway<br>
