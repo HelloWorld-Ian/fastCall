@@ -7,20 +7,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Framer" />
         <module name="Consumer" />
         <module name="CallCenter" />
+        <module name="Test" />
         <module name="Provider" />
+        <module name="Common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="CallCenter" target="8" />
+      <module name="Common" target="8" />
       <module name="Consumer" target="8" />
       <module name="FastCall" target="8" />
       <module name="fastCall" target="8" />
       <module name="Framer" target="8" />
       <module name="Producer" target="8" />
       <module name="Provider" target="8" />
+      <module name="Test" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

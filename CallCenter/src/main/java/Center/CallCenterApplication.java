@@ -32,13 +32,7 @@ public class CallCenterApplication {
 
     private final String serviceName;
 
-    private final String host;
-
-    private final Integer port;
-
-    private final String serverName;
-
-    private final String route;
+    private String serverName;
 
     private List<ServerMonitor>providerInfoList;
 
@@ -47,10 +41,7 @@ public class CallCenterApplication {
         this.connectTimeOut= configuration.getConnectTimeOut();
         this.sessionTimeOut= configuration.getSessionTimeOut();
         this.serviceName= configuration.getServiceName();
-        this.host= configuration.getHost();
-        this.port= configuration.getPort();
-        this.serverName = host + ":" + port;
-        this.route="/"+serviceName+"/"+ serverName;
+        this.serverName=configuration.getServerName();
         this.init();
     }
 
@@ -66,10 +57,10 @@ public class CallCenterApplication {
 
     public void probeProvider(){
         try {
-            List<String> providerNameList=connection.getChildren().forPath(serviceName);
+            List<String> providerNameList=connection.getChildren().forPath("/"+serviceName);
             List<ServerMonitor>providerInfoList=new ArrayList<>();
             for(String name:providerNameList){
-                byte[]info=connection.getData().forPath(assembleRoute(serverName,name));
+                byte[]info=connection.getData().forPath(assembleRoute("/"+serviceName,name));
                 ServerMonitor monitor= ServerMonitor.toObj(info);
                 if(monitor!=null){
                     providerInfoList.add(monitor);
@@ -98,13 +89,12 @@ public class CallCenterApplication {
         return ret;
     }
 
-    public CuratorFramework connection(){
-        return connection;
-    }
 
-    public void register() throws Exception {
+    public void register(String host,Integer port) throws Exception {
 
         ServerMonitor monitor=serverMonitor(host,port,serviceName);
+        String serverName = host + ":" + port;
+        String route="/"+serviceName+"/"+ serverName;
 
         // 创建节点
         if(connection.checkExists().forPath(route)==null){
@@ -119,6 +109,7 @@ public class CallCenterApplication {
      * 增加负载或者减少负载
      */
     public void updateLoad(Integer count){
+        String route="/"+serviceName+"/"+ serverName;
         Stat stat=new Stat();
         ServerMonitor monitor;
         while (true){
@@ -129,6 +120,7 @@ public class CallCenterApplication {
                 }
                 monitor.setLoad(monitor.getLoad()+count);
                 connection.setData().withVersion(stat.getVersion()).forPath(route, monitor.bytes());
+                return;
             } catch (Exception e) {
                 if(e instanceof KeeperException.BadVersionException){
                     log.info("bad version",e);

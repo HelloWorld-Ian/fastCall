@@ -12,12 +12,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import java.net.InetAddress;
 
 
 @Getter
 @Setter
-@Component
 public class FastServer {
     Logger logger= LoggerFactory.getLogger(FastServer.class);
 
@@ -57,7 +56,7 @@ public class FastServer {
                 logger.info("server start successfully on port {}",port);
                 logger.info("server is attempting to register on call center");
 
-                application.register();
+                application.register(InetAddress.getLocalHost().getHostAddress(),port);
 
                 f.channel().closeFuture().sync();
 

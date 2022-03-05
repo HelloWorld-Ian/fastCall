@@ -28,26 +28,26 @@ public class FastClient {
     /**
      * 更新缓存
      */
-    public void put(Class<?>interfaceProxy,Class<?>interfaceImpl){
+    public void put(Class<?>interfaceProxy,Class<?>referenceClass){
         synchronized (FastClient.class){
-            cache.put(interfaceImpl,channel.proxy(interfaceProxy));
+            cache.put(referenceClass,channel.proxy(interfaceProxy,referenceClass));
         }
     }
 
     /**
      * 返回一个代理对象
      *
-     * @param interfaceImpl 被代理的对象类
+     * @param referenceClass 被代理的对象类
      * @param interfaceProxy 代理接口
      * @param <T> 代理对象
      */
-    public <T> T get(Class<T>interfaceProxy,Class<?>interfaceImpl){
+    public <T> T get(Class<T>interfaceProxy,Class<?>referenceClass){
         synchronized (FastClient.class){
-            if(cache.containsKey(interfaceImpl)){
-                return (T) cache.get(interfaceImpl);
+            if(cache.containsKey(referenceClass)){
+                return (T) cache.get(referenceClass);
             }else {
-                T instance = channel.proxy(interfaceProxy);
-                cache.put(interfaceImpl,instance);
+                T instance = channel.proxy(interfaceProxy,referenceClass);
+                cache.put(referenceClass,instance);
                 return instance;
             }
         }

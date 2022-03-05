@@ -15,6 +15,7 @@ public class FastClientBootstrap {
 
     public FastClientBootstrap setCallCenter(CallCenterApplication application){
         client.initChannel(application);
+        application.probeProvider();
         return this;
     }
 

@@ -40,9 +40,14 @@ public class ServiceHandler extends SimpleChannelInboundHandler<FastRequest> {
         application.updateLoad(-1);
     }
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        logger.error("netty exception caught",cause);
+        ctx.close();
+    }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, FastRequest request) throws Exception {
+    protected void messageReceived(ChannelHandlerContext ctx, FastRequest request) throws Exception {
         logger.info("provider accept a request {}",request);
 
         FastResponse response= FastResponse.builder().build();
@@ -54,12 +59,6 @@ public class ServiceHandler extends SimpleChannelInboundHandler<FastRequest> {
             response.setError(e);
         }
         ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        logger.error("netty exception caught",cause);
-        ctx.close();
     }
 
     private Object handle(FastRequest request) throws Exception {

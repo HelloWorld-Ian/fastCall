@@ -17,12 +17,13 @@ public class FastChannel {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T proxy(Class<T>interfaceClass){
+    public <T> T proxy(Class<T>interfaceClass,Class<?>referenceClass){
         return (T) java.lang.reflect.Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[]{interfaceClass},
                 (proxy, method, args) -> {
             FastRequest request=FastRequest.builder()
                     .requestId(UUID.randomUUID().toString())
                     .interfaceClass(method.getDeclaringClass().getName())
+                    .referenceClass(referenceClass.getName())
                     .methodName(method.getName())
                     .params(args)
                     .paramsType(method.getParameterTypes())

@@ -68,7 +68,7 @@ public class FastStream extends SimpleChannelInboundHandler<FastResponse> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, FastResponse fastResponse) throws Exception {
+    protected void messageReceived(ChannelHandlerContext ctx, FastResponse fastResponse) throws Exception {
         this.response=fastResponse;
         future.complete("");
     }
